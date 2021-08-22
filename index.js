@@ -14,7 +14,7 @@ function formatIn(input) {
 
 function convert(file, callback) {
     ffmpeg(file)
-        .output(file +'.mp3')
+        .output(file + '.mp3')
        	.on('progress', function(progress) {
 			callback({ message: progress.percent })
 		})
@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
     },
   
     filename: function(req, file, cb) {
-    	const filename = formatIn(req.body.artist) + '+' + formatIn(req.body.songTitle)
+    	const filename = formatIn(req.body.artist) + '_' + formatIn(req.body.songTitle)
         cb(null, filename + path.extname(file.originalname));
     }
 });
@@ -52,12 +52,12 @@ app.use(expressLayouts);
 app.set('layout', 'application');
 app.set('view engine', 'ejs'); 
 
-const playlist = path.join(__dirname , 'playlist', 'playlist.txt');
+const playlist = path.join(__dirname , 'approved_uploads', 'playlist.txt');
 
 function updatePlaylist() {
-  const uploads = fs.readdirSync(path.join(__dirname, 'playlist'))
+  const uploads = fs.readdirSync(path.join(__dirname, 'approved_uploads'))
     .filter(file => file.match(/.*\.mp3$/))
-  fs.writeFileSync(playlist, `ffconcat version 1.0\n${uploads.map(file => `file ${file}`).join("\n")}\nfile ${playlist}`);
+  fs.writeFileSync(playlist, `ffconcat version 1.0\n${uploads.map(file => `file ${file}`).join("\n")}\nfile playlist.txt`);
 }
 
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -85,8 +85,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
 app.post('/rate', (req, res) => {
 
 	if(req.body.like) {
-		fs.rename('public/' + req.body.path, 'aproved_' + req.body.path, (err) => {
-			if (err)  { console.log(err) }
+		fs.rename('public/' + req.body.path, 'approved_' + req.body.path, (err) => {
+			if (err)  { return console.log(err) }
+			updatePlaylist()
 		})
 	}
 	if(req.body.dislike) {
