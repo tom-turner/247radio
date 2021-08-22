@@ -52,15 +52,25 @@ app.use(expressLayouts);
 app.set('layout', 'application');
 app.set('view engine', 'ejs'); 
 
+const playlist = path.join(__dirname , 'playlist', 'playlist.txt');
+
+function updatePlaylist() {
+  const uploads = fs.readdirSync(path.join(__dirname, 'playlist'))
+    .filter(file => file.match(/.*\.mp3$/))
+  fs.writeFileSync(playlist, `ffconcat version 1.0\n${uploads.map(file => `file ${file}`).join("\n")}\nfile ${playlist}`);
+}
 
 app.post('/upload', upload.single('file'), (req, res) => {
 	try {
 	convert(req.file.path, (event) => {
 		if(event.ended){
 			console.log('upload complete')
+
 			fs.unlink(req.file.path, (err) =>  {
 				err ? console.log(err) : console.log(req.file.path, 'removed')
 			})
+
+
 			return res.redirect('/thanks')
 		}
 		if(event.err) {
