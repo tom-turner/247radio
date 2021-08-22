@@ -1,2 +1,3 @@
 public/uploads/*
 approved_uploads/*
+!approved_uploads/playlist.txt
