@@ -1,0 +1,19 @@
+{
+  "name": "247radio",
+  "version": "1.0.0",
+  "description": "247 tunes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tom-turner/247radio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tom-turner/247radio/issues"
+  },
+  "homepage": "https://github.com/tom-turner/247radio#readme"
+}
