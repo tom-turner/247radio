@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
     },
   
     filename: function(req, file, cb) {
-    	const filename = '<'+ formatIn(req.body.artist) + '><' + formatIn(req.body.songTitle) + '>'
+    	const filename = formatIn(req.body.artist) + '+' + formatIn(req.body.songTitle)
         cb(null, filename + path.extname(file.originalname));
     }
 });
@@ -73,7 +73,17 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 
 app.post('/rate', (req, res) => {
-	console.log(req.body)
+
+	if(req.body.like) {
+		fs.rename('public/' + req.body.path, 'aproved_' + req.body.path, (err) => {
+			if (err)  { console.log(err) }
+		})
+	}
+	if(req.body.dislike) {
+		fs.unlink('public/' + req.body.path, (err) =>  {
+			err ? console.log(err) : console.log(req.body.path, 'removed')
+		})
+	}
 })
 
 

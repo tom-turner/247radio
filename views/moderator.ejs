@@ -1,7 +1,10 @@
+<div class="absolute w-full h-full bg-black z-10 opacity-60">
+	<p> Nothing To Rate :) </p>
+</div>
+
 <div class="items-center justify-center h-screen flex">
 
 	<div class="max-w-lg w-full p-4 rounded space-y-4 ">
-
 
 <figure>
     <audio class="w-full"
@@ -22,14 +25,29 @@
 <script type="text/javascript">
 	
 	$('img').on('click', (ele) => {
-
+		let rating = $(ele.target)[0].name
+		let song = '<%- song %>'
+		console.log(song)
 		fetch("/rate" , {
-			method: 'post',
-			body: $(ele.target)[0].name
+			method: 'POST',
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			body: JSON.stringify({
+				[rating] : true,
+				path : '<%- song %>'})
 		});
 
+		setTimeout(function() {
+			location.reload()
+		}, 500);
+		
 	})
 
+
+	if ('<%- song %>' == 'uploads/undefined') {
+		console.log('nothing to rate')
+	}
 
 
 
