@@ -1,5 +1,5 @@
-<div class="absolute w-full h-full bg-black z-10 opacity-60">
-	<p> Nothing To Rate :) </p>
+<div id="gate" class="hidden absolute w-full h-screen bg-black z-10 opacity-100 items-center justify-center flex">
+	<p class="text-white text-center"> Thank you! There is nothing To Rate :)</p>
 </div>
 
 <div class="items-center justify-center h-screen flex">
@@ -46,7 +46,7 @@
 
 
 	if ('<%- song %>' == 'uploads/undefined') {
-		console.log('nothing to rate')
+		$('#gate').removeClass('hidden')
 	}
 
 
