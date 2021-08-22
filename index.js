@@ -7,6 +7,8 @@ const fs = require('fs')
 const bp = require('body-parser');
 const path = require('path');
 const multer = require('multer');
+const { exec } = require('child_process');
+exec('sh start-streaming.sh');
 
 function formatIn(input) {
 	return input.replace(/\s/g,'-')
