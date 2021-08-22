@@ -1,0 +1,36 @@
+<div class="items-center justify-center h-screen flex">
+
+	<div class="max-w-lg w-full p-4 rounded space-y-4 ">
+
+
+<figure>
+    <audio class="w-full"
+        controls
+        src="<%= song %>">
+    </audio>
+</figure>
+
+
+		<div class="bg-black rounded-full w-full flex flex-row">
+				<img id="dislike" name="dislike" src="images/down.svg" class="h-10 mx-auto cursor-pointer" />
+				<img id="like" name="like" src="images/up.svg" class="h-10 mx-auto cursor-pointer" />
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+	$('img').on('click', (ele) => {
+
+		fetch("/rate" , {
+			method: 'post',
+			body: $(ele.target)[0].name
+		});
+
+	})
+
+
+
+
+</script>

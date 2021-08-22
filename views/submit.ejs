@@ -1,0 +1,33 @@
+<div class="items-center justify-center h-screen flex">
+
+	<div class="max-w-sm p-4 border rounded space-y-4 ">
+
+	<form id="submitForm" action="/upload" method="post" enctype="multipart/form-data" class="flex flex-col space-y-4" onsubmit="loading()">
+		<span class="flex flex-col">
+		<lable>Artist Name: </lable>
+		<input type="text" name="artist" id="artist" class="border rounded"/>
+	</span>
+	<span class="flex flex-col">
+		<label>Song Title: </label>
+		<input type="text" name="songTitle" id="songTitle" class="border rounded"/>
+	</span>
+		<input type="file" name="file" id="songFile" />
+		<button type="submit" class="bg-black p-2 text-white rounded-full">
+			<p id="btntxt"> Submit </p>
+			<img id="spinner" class="hidden mx-auto h-6" src="images/tail-spin.svg"/>
+		</button>
+	</form>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+
+function loading() {
+ 	document.getElementById("btntxt").classList.add("hidden")
+ 	document.getElementById("spinner").classList.remove("hidden")
+}
+
+
+
+</script>
