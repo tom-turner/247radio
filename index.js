@@ -9,7 +9,7 @@ const path = require('path');
 const multer = require('multer');
 const { exec } = require('child_process');
 const Playlist = require('./lib/ffmpeg-playlist');
-exec('sh start-streaming.sh');
+//exec('sh start-streaming.sh');
 
 function formatIn(input) {
 	return input.replace(/\s/g,'-')
