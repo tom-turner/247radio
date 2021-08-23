@@ -8,6 +8,7 @@ const bp = require('body-parser');
 const path = require('path');
 const multer = require('multer');
 const { exec } = require('child_process');
+const Playlist = require('./lib/ffmpeg-playlist');
 exec('sh start-streaming.sh');
 
 function formatIn(input) {
@@ -54,13 +55,7 @@ app.use(expressLayouts);
 app.set('layout', 'application');
 app.set('view engine', 'ejs'); 
 
-const playlist = path.join(__dirname , 'approved_uploads', 'playlist.txt');
-
-function updatePlaylist() {
-  const uploads = fs.readdirSync(path.join(__dirname, 'approved_uploads'))
-    .filter(file => file.match(/.*\.mp3$/))
-  fs.writeFileSync(playlist, `ffconcat version 1.0\n${uploads.map(file => `file ${file}`).join("\n")}\nfile playlist.txt`);
-}
+const playlist = new Playlist(path.join(__dirname , 'approved_uploads'))
 
 app.post('/upload', upload.single('file'), (req, res) => {
 	try {
@@ -71,7 +66,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
 			fs.unlink(req.file.path, (err) =>  {
 				err ? console.log(err) : console.log(req.file.path, 'removed')
 			})
-
 
 			return res.redirect('/thanks')
 		}
@@ -85,11 +79,10 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 
 app.post('/rate', (req, res) => {
-
 	if(req.body.like) {
 		fs.rename('public/' + req.body.path, 'approved_' + req.body.path, (err) => {
 			if (err)  { return console.log(err) }
-			updatePlaylist()
+      playlist.addTrack(path.basename(req.body.path, '.mp3'))
 		})
 	}
 	if(req.body.dislike) {
